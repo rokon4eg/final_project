@@ -11,13 +11,6 @@ def create_sprite(img, sprite_size):
     return sprite
 
 
-class Interactive(ABC):
-
-    @abstractmethod
-    def interact(self, engine, hero):
-        pass
-
-
 class AbstractObject(ABC):
 
     @abstractmethod
@@ -27,18 +20,6 @@ class AbstractObject(ABC):
     # @abstractmethod
     def draw(self, display):
         pass
-
-
-class Ally(AbstractObject, Interactive):
-
-    def __init__(self, icon, action, position):
-        self.sprite = icon
-        self.action = action
-        self.position = position
-
-    def interact(self, engine, hero):
-        self.action(engine, hero)
-
 
 class Creature(AbstractObject):
 
@@ -53,16 +34,11 @@ class Creature(AbstractObject):
         self.max_hp = 5 + self.stats["endurance"] * 2
 
 
-class Enemy(Creature, Interactive):
+class Interactive(ABC):
 
-    def __init__(self, icon, stats, xp, position):
-        self.sprite = icon
-        self.stats = stats
-        self.xp = xp
-        self.position = position
-
+    @abstractmethod
     def interact(self, engine, hero):
-        pass# self.action(engine, hero)
+        pass
 
 
 class Hero(Creature):
@@ -82,6 +58,29 @@ class Hero(Creature):
             self.stats["endurance"] += 2
             self.calc_max_HP()
             self.hp = self.max_hp
+
+
+class Enemy(Creature, Interactive):
+
+    def __init__(self, icon, stats, xp, position):
+        self.sprite = icon
+        self.stats = stats
+        self.xp = xp
+        self.position = position
+
+    def interact(self, engine, hero):
+        pass# self.action(engine, hero)
+
+
+class Ally(AbstractObject, Interactive):
+
+    def __init__(self, icon, action, position):
+        self.sprite = icon
+        self.action = action
+        self.position = position
+
+    def interact(self, engine, hero):
+        self.action(engine, hero)
 
 
 class Effect(Hero):

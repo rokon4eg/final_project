@@ -78,9 +78,12 @@ class MapFactory(yaml.YAMLObject):
 
     @classmethod
     def from_yaml(cls, loader, node):
+        data = loader.construct_mapping(node)
         _map = cls.Map()
         _obj = cls.Objects()
-        data = loader.construct_mapping(node)
+        _obj.objects = []
+        # _obj.objects.append(Objects.Enemy(
+        #     prop['sprite'], prop, prop['experience'], coord))
         # FIXME - get _map and _obj
 
         return {'map': _map, 'obj': _obj}
@@ -155,7 +158,7 @@ class EmptyMap(MapFactory):
 
             for obj_name in object_list_prob['objects']:
                 prop = object_list_prob['objects'][obj_name]
-                for i in range(random.randint(prop['min-count'])):
+                for i in range(random.randint(0, prop['min-count'])):
                     coord = (random.randint(1, 39), random.randint(1, 39))
                     intersect = True
                     while intersect:
@@ -176,7 +179,7 @@ class EmptyMap(MapFactory):
 
             for obj_name in object_list_prob['ally']:
                 prop = object_list_prob['ally'][obj_name]
-                for i in range(random.randint(prop['min-count'])):
+                for i in range(random.randint(0, prop['min-count'])):
                     coord = (random.randint(1, 39), random.randint(1, 39))
                     intersect = True
                     while intersect:
