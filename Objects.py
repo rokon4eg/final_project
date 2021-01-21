@@ -53,6 +53,18 @@ class Creature(AbstractObject):
         self.max_hp = 5 + self.stats["endurance"] * 2
 
 
+class Enemy(Creature, Interactive):
+
+    def __init__(self, icon, stats, xp, position):
+        self.sprite = icon
+        self.stats = stats
+        self.xp = xp
+        self.position = position
+
+    def interact(self, engine, hero):
+        pass# self.action(engine, hero)
+
+
 class Hero(Creature):
 
     def __init__(self, stats, icon):
@@ -136,5 +148,16 @@ class Effect(Hero):
         pass
 
 
-# FIXME
-# add classes
+class Berserk(Effect):
+    def apply_effect(self):
+        pass
+
+
+class Blessing(Effect):
+    def apply_effect(self):
+        pass
+
+
+class Weakness(Effect):
+    def apply_effect(self):
+        pass
