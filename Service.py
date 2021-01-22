@@ -407,19 +407,16 @@ wall = [0]
 floor1 = [0]
 floor2 = [0]
 floor3 = [0]
-hero = [0]
 
 
 def service_init(sprite_size, full=True):
     global object_list_prob, level_list
 
-    global hero
     global wall
     global floor1
     global floor2
     global floor3
 
-    hero[0] = create_sprite(os.path.join("texture", "hero.png"), sprite_size)
     wall[0] = create_sprite(os.path.join("texture", "wall.png"), sprite_size)
     floor1[0] = create_sprite(os.path.join("texture", "Ground_1.png"), sprite_size)
     floor2[0] = create_sprite(os.path.join("texture", "Ground_2.png"), sprite_size)

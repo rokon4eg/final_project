@@ -62,7 +62,7 @@ def create_game(sprite_size, is_new):
     iteration = 0
 
 
-size = 20
+size = 10
 create_game(size, True)
 
 while engine.working:
