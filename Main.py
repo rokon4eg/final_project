@@ -1,7 +1,7 @@
 import pygame
 import os
 import Objects
-import ScreenEngine
+import ScreenEngine as SE
 import Logic
 import Service
 
@@ -24,6 +24,11 @@ base_stats = {
     "luck": 5
 }
 
+hero: Objects.Hero
+engine: Logic.GameEngine
+drawer: SE.GameSurface
+iteration: int
+
 
 def create_game(sprite_size, is_new):
     global hero, engine, drawer, iteration
@@ -34,15 +39,15 @@ def create_game(sprite_size, is_new):
         Service.service_init(sprite_size)
         Service.reload_game(engine, hero)
         # with ScreenEngine as SE:
-        drawer = ScreenEngine.GameSurface((640, 480), pygame.SRCALPHA, (0, 480),
-                                          ScreenEngine.ProgressBar((640, 120), (640, 0),
-                                                                   ScreenEngine.InfoWindow((160, 600), (50, 50),
-                                                                                           ScreenEngine.HelpWindow(
-                                                                                               (700, 500),
-                                                                                               pygame.SRCALPHA, (0, 0),
-                                                                                               ScreenEngine.ScreenHandle(
-                                                                                                   (0, 0))
-                                                                                               ))))
+        drawer = SE.GameSurface((640, 480), pygame.SRCALPHA, (0, 480),
+                                SE.ProgressBar((640, 120), (640, 0),
+                                               SE.InfoWindow((160, 600), (50, 50),
+                                                             SE.HelpWindow(
+                                                                 (700, 500),
+                                                                 pygame.SRCALPHA, (0, 0),
+                                                                 SE.ScreenHandle(
+                                                                     (0, 0))
+                                                             ))))
 
     else:
         engine.sprite_size = sprite_size
