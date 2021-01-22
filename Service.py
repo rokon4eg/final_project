@@ -39,10 +39,10 @@ def restore_hp(engine, hero):
 
 
 def apply_blessing(engine, hero):
-    if hero.gold >= int(20 * 1.5**engine.level) - 2 * hero.stats["intelligence"]:
+    if hero.gold >= int(20 * 1.5 ** engine.level) - 2 * hero.stats["intelligence"]:
         engine.score += 0.2
-        hero.gold -= int(20 * 1.5**engine.level) - \
-            2 * hero.stats["intelligence"]
+        hero.gold -= int(20 * 1.5 ** engine.level) - \
+                     2 * hero.stats["intelligence"]
         if random.randint(0, 1) == 0:
             engine.hero = Objects.Blessing(hero)
             engine.notify("Blessing applied")
@@ -54,9 +54,9 @@ def apply_blessing(engine, hero):
 
 
 def remove_effect(engine, hero):
-    if hero.gold >= int(10 * 1.5**engine.level) - 2 * hero.stats["intelligence"] and "base" in dir(hero):
-        hero.gold -= int(10 * 1.5**engine.level) - \
-            2 * hero.stats["intelligence"]
+    if hero.gold >= int(10 * 1.5 ** engine.level) - 2 * hero.stats["intelligence"] and "base" in dir(hero):
+        hero.gold -= int(10 * 1.5 ** engine.level) - \
+                     2 * hero.stats["intelligence"]
         engine.hero = hero.base
         engine.hero.calc_max_HP()
         engine.notify("Effect removed")
@@ -69,7 +69,7 @@ def add_gold(engine, hero):
         engine.notify("You were cursed")
     else:
         engine.score += 0.1
-        gold = int(random.randint(10, 1000) * (1.1**(engine.hero.level - 1)))
+        gold = int(random.randint(10, 1000) * (1.1 ** (engine.hero.level - 1)))
         hero.gold += gold
         engine.notify(f"{gold} gold added")
 
@@ -96,8 +96,8 @@ class MapFactory(yaml.YAMLObject):
     class Objects(ABC):
         pass
 
-class EndMap(MapFactory):
 
+class EndMap(MapFactory):
     yaml_tag = "!end_map"
 
     class Map:
@@ -118,7 +118,7 @@ class EndMap(MapFactory):
             for i in self.Map:
                 for j in range(len(i)):
                     i[j] = wall if i[j] == '0' else floor1
-         
+
         def get_map(self):
             return self.Map
 
@@ -407,16 +407,19 @@ wall = [0]
 floor1 = [0]
 floor2 = [0]
 floor3 = [0]
+hero = [0]
 
 
 def service_init(sprite_size, full=True):
     global object_list_prob, level_list
 
+    global hero
     global wall
     global floor1
     global floor2
     global floor3
 
+    hero[0] = create_sprite(os.path.join("texture", "hero.png"), sprite_size)
     wall[0] = create_sprite(os.path.join("texture", "wall.png"), sprite_size)
     floor1[0] = create_sprite(os.path.join("texture", "Ground_1.png"), sprite_size)
     floor2[0] = create_sprite(os.path.join("texture", "Ground_2.png"), sprite_size)
