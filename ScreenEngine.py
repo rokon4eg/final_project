@@ -32,7 +32,7 @@ class ScreenHandle(pygame.Surface):
             canvas.blit(self.successor, self.next_coord)
             self.successor.draw(canvas)
 
-    # FIXME- DONE! connect_engine
+    # DONE! - FIXME - connect_engine
     def connect_engine(self, engine):
         self.game_engine = engine
         if not self.successor is None:
@@ -44,7 +44,7 @@ class GameSurface(ScreenHandle):
         self.game_engine = engine
         if not self.successor is None:
             self.successor.connect_engine(engine)
-        # FIXME - DONE! save engine and send it to next in chain
+        # DONE! - FIXME - save engine and send it to next in chain
 
     def draw_hero(self):
 
@@ -108,7 +108,7 @@ class GameSurface(ScreenHandle):
         if self.successor is not None:
             self.successor.draw(canvas)
             canvas.blit(self.successor, self.next_coord)
-        # FIXME - DONE! draw next surface in chain
+        # DONE! - FIXME - draw next surface in chain
 
     def _calculate_min_x_y(self):
         min_x, min_y = 0, 0
@@ -135,7 +135,7 @@ class ProgressBar(ScreenHandle):
         self.game_engine = engine
         if not self.successor is None:
             self.successor.connect_engine(engine)
-        # FIXME - DONE! save engine and send it to next in chain
+        # DONE! - FIXME - save engine and send it to next in chain
 
     def draw(self, canvas):
         self.fill(colors["wooden"])
@@ -223,6 +223,7 @@ class InfoWindow(ScreenHandle):
 
     def connect_engine(self, engine):
         self.game_engine = engine
+        engine.subscribe(self)
         if not self.successor is None:
             self.successor.connect_engine(engine)
         # FIXME set this class as Observer to engine and send it to next in chain
@@ -249,7 +250,7 @@ class HelpWindow(ScreenHandle):
         self.game_engine = engine
         if not self.successor is None:
             self.successor.connect_engine(engine)
-        # FIXME - DONE! save engine and send it to next in chain
+        # DONE! - FIXME - save engine and send it to next in chain
 
     def draw(self, canvas):
         alpha = 0
@@ -271,4 +272,4 @@ class HelpWindow(ScreenHandle):
         if self.successor is not None:
             canvas.blit(self.successor, self.next_coord)
             self.successor.draw(canvas)
-    # FIXME - DONE! draw next surface in chain
+    # DONE! - FIXME - draw next surface in chain

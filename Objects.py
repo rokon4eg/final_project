@@ -69,6 +69,7 @@ class Enemy(Creature, Interactive):
         self.position = position
 
     def interact(self, engine, hero):
+        # TODO interact?
         pass# self.action(engine, hero)
 
 
@@ -149,14 +150,17 @@ class Effect(Hero):
 
 class Berserk(Effect):
     def apply_effect(self):
+        # TODO apply_effect Berserk
         pass
 
 
 class Blessing(Effect):
     def apply_effect(self):
+        # TODO apply_effect Blessing
         pass
 
 
 class Weakness(Effect):
     def apply_effect(self):
+        # TODO apply_effect Weakness
         pass
