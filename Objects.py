@@ -70,7 +70,8 @@ class Enemy(Creature, Interactive):
 
     def interact(self, engine, hero):
         # TODO interact?
-        pass# self.action(engine, hero)
+        pass
+        # self.action(engine, hero)
 
 
 class Ally(AbstractObject, Interactive):

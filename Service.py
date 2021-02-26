@@ -45,9 +45,11 @@ def apply_blessing(engine, hero):
                      2 * hero.stats["intelligence"]
         if random.randint(0, 1) == 0:
             engine.hero = Objects.Blessing(hero)
+            engine.hero.apply_effect()
             engine.notify("Blessing applied")
         else:
             engine.hero = Objects.Berserk(hero)
+            engine.hero.apply_effect()
             engine.notify("Berserk applied")
     else:
         engine.score -= 0.1
@@ -66,6 +68,7 @@ def add_gold(engine, hero):
     if random.randint(1, 10) == 1:
         engine.score -= 0.05
         engine.hero = Objects.Weakness(hero)
+        engine.hero.apply_effect()
         engine.notify("You were cursed")
     else:
         engine.score += 0.1
@@ -79,14 +82,21 @@ class MapFactory(yaml.YAMLObject):
     @classmethod
     def from_yaml(cls, loader, node):
         data = loader.construct_mapping(node)
-        _map = cls.Map()
-        _obj = cls.Objects()
+        _map = cls.create_map()
+        _obj = cls.create_objects()
         _obj.objects = []
         # _obj.objects.append(Objects.Enemy(
         #     prop['sprite'], prop, prop['experience'], coord))
         # FIXME - get _map and _obj
-
         return {'map': _map, 'obj': _obj}
+
+    @classmethod
+    def create_map(cls):
+        return cls.Map()
+
+    @classmethod
+    def create_objects(cls):
+        return cls.Objects()
 
     @abstractmethod
     class Map(ABC):
