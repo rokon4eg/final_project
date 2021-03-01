@@ -69,8 +69,19 @@ class Enemy(Creature, Interactive):
         self.position = position
 
     def interact(self, engine, hero):
-        # TODO interact?
+        # TODO interact Enemy
         pass
+        engine.notify("<Enemy>")
+        engine.notify('xp='+str(self.xp))
+        engine.notify("strength="+str(self.stats["strength"]))
+        # engine.notify("endurance="+str(self.stats["endurance"]))
+        # engine.notify("intelligence=" + str(self.stats["intelligence"]))
+        # engine.notify("luck=" + str(self.stats["luck"]))
+        # engine.notify("experience=" + str(self.stats["experience"]))
+        engine.notify("</Enemy >")
+        delta_strength = (self.stats["strength"]-hero.stats["strength"])
+        if delta_strength > 0 :
+            hero.hp -= delta_strength
         # self.action(engine, hero)
 
 
@@ -82,7 +93,11 @@ class Ally(AbstractObject, Interactive):
         self.position = position
 
     def interact(self, engine, hero):
+        engine.notify("<Ally>")
+        engine.notify(self.action)
+        engine.notify("</Ally>")
         self.action(engine, hero)
+        # TODO interact Ally
 
 
 class Effect(Hero):
@@ -152,12 +167,13 @@ class Effect(Hero):
 class Berserk(Effect):
     def apply_effect(self):
         # TODO apply_effect Berserk
-        pass
+        self.stats["strength"] *= 2
 
 
 class Blessing(Effect):
     def apply_effect(self):
         # TODO apply_effect Blessing
+        self.max_hp *= 2
         pass
 
 
