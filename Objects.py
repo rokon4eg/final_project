@@ -21,6 +21,7 @@ class AbstractObject(ABC):
     def draw(self, display):
         pass
 
+
 class Creature(AbstractObject):
 
     def __init__(self, icon, stats, position):
@@ -69,19 +70,22 @@ class Enemy(Creature, Interactive):
         self.position = position
 
     def interact(self, engine, hero):
-        # TODO interact Enemy
+        # DONE! - TODO interact Enemy
         pass
         engine.notify("<Enemy>")
-        engine.notify('xp='+str(self.xp))
-        engine.notify("strength="+str(self.stats["strength"]))
-        # engine.notify("endurance="+str(self.stats["endurance"]))
-        # engine.notify("intelligence=" + str(self.stats["intelligence"]))
-        # engine.notify("luck=" + str(self.stats["luck"]))
-        # engine.notify("experience=" + str(self.stats["experience"]))
+        engine.notify('xp=' + str(self.xp))
+        engine.notify("strength=" + str(self.stats["strength"]))
+        engine.notify("endurance=" + str(self.stats["endurance"]))
+        engine.notify("intelligence=" + str(self.stats["intelligence"]))
+        engine.notify("luck=" + str(self.stats["luck"]))
+        engine.notify("experience=" + str(self.stats["experience"]))
         engine.notify("</Enemy >")
-        delta_strength = (self.stats["strength"]-hero.stats["strength"])
-        if delta_strength > 0 :
+        delta_strength = (self.stats["strength"] - hero.stats["strength"])
+        delta_endurance = (self.stats["endurance"] - hero.stats["endurance"])
+        # delta_luck
+        if delta_strength > 0:
             hero.hp -= delta_strength
+        engine.hero.exp += 2
         # self.action(engine, hero)
 
 
@@ -93,19 +97,21 @@ class Ally(AbstractObject, Interactive):
         self.position = position
 
     def interact(self, engine, hero):
-        engine.notify("<Ally>")
-        engine.notify(self.action)
-        engine.notify("</Ally>")
+        # res = f"Ally-{hero.hp}\nSecond str"
+        # engine.notify(res)
+        # engine.notify("stats="+str(hero.stats))
         self.action(engine, hero)
-        # TODO interact Ally
+        engine.hero.exp += 1
+
+        # DONE! - TODO interact Ally
 
 
 class Effect(Hero):
 
-    def __init__(self, base):
-        self.base = base
+    def __init__(self, base_stats):
+        self.base = base_stats
         self.stats = self.base.stats.copy()
-        self.apply_effect()
+        # self.apply_effect()
 
     @property
     def position(self):
@@ -166,18 +172,37 @@ class Effect(Hero):
 
 class Berserk(Effect):
     def apply_effect(self):
-        # TODO apply_effect Berserk
-        self.stats["strength"] *= 2
+        # DONE! - TODO apply_effect Berserk
+        res = ""
+        if random.randint(0, 1):
+            self.stats["strength"] *= 2
+            res += f'Strength={self.stats["strength"]}\n'
+        if random.randint(0, 1):
+            self.stats["endurance"] *= 2
+            res += f'Endurance={self.stats["endurance"]}\n'
+        if random.randint(0, 1):
+            self.stats["intelligence"] *= 2
+            res += f'Intelligence={self.stats["intelligence"]}\n'
+        return res
 
 
 class Blessing(Effect):
     def apply_effect(self):
-        # TODO apply_effect Blessing
+        # DONE! - TODO apply_effect Blessing
         self.max_hp *= 2
-        pass
+        self.hp *= 2
+        self.stats["luck"] *= 2
+        res = f"Luck={self.stats['luck']}\n" \
+              f"Max_HP={self.max_hp}\n" \
+              f"New HP={self.hp}"
+        return res
 
 
 class Weakness(Effect):
     def apply_effect(self):
-        # TODO apply_effect Weakness
-        pass
+        self.stats["strength"] //= 2
+        self.stats["luck"] //= 2
+        # DONE! - TODO apply_effect Weakness
+        res = f"Luck={self.stats['luck']}\n" \
+              f"Strength={self.stats['strength']}"
+        return res
