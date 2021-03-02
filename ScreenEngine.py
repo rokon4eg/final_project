@@ -123,10 +123,8 @@ class ProgressBar(ScreenHandle):
         pygame.draw.rect(self, colors["black"], (50, 30, 200, 30), 2)
         pygame.draw.rect(self, colors["black"], (50, 70, 200, 30), 2)
 
-        # draw hp / max_hp
         pygame.draw.rect(self, colors[
             "red"], (50, 30, 200 * self.game_engine.hero.hp / self.game_engine.hero.max_hp, 30))
-        # draw exp
         pygame.draw.rect(self, colors["green"], (50, 70,
                                                  200 * self.game_engine.hero.exp / (
                                                              100 * (2 ** (self.game_engine.hero.level - 1))), 30))

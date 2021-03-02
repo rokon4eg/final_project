@@ -38,7 +38,6 @@ def create_game(sprite_size, is_new):
         engine = Logic.GameEngine()
         Service.service_init(sprite_size)
         Service.reload_game(engine, hero)
-        # with ScreenEngine as SE:
         drawer = SE.GameSurface((640, 480), pygame.SRCALPHA, (0, 480),
                                 SE.ProgressBar((640, 120), (640, 0),
                                                SE.InfoWindow((160, 600), (50, 50),
@@ -62,7 +61,7 @@ def create_game(sprite_size, is_new):
     iteration = 0
 
 
-size = 10
+size = 20
 create_game(size, True)
 
 while engine.working:
@@ -78,8 +77,9 @@ while engine.working:
                     size = size + 1
                     create_game(size, False)
                 if event.key == pygame.K_KP_MINUS:
-                    size = size - 1
-                    create_game(size, False)
+                    if size > 1:
+                        size = size - 1
+                        create_game(size, False)
                 if event.key == pygame.K_r:
                     create_game(size, True)
                 if event.key == pygame.K_ESCAPE:

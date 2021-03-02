@@ -17,7 +17,6 @@ class AbstractObject(ABC):
     def __init__(self):
         pass
 
-    # @abstractmethod
     def draw(self, display):
         pass
 
@@ -87,29 +86,14 @@ class Enemy(Creature, Interactive):
 
         enemy_damage = hero_force - enemy_safe
         if enemy_damage > 0:
-            engine.notify("enemy damaged")
             engine.hero.exp += 5
             engine.score += 0.1
             if (self.xp - enemy_damage) < 0:
                 engine.hero.exp += 10
                 engine.score += 0.2
                 engine.notify("enemy destroyed!")
-
-        # engine.notify("hero_damage=" + str(hero_damage))
-        # engine.notify('enemy_damage=' + str(enemy_damage))
-        # engine.notify("strength=" + str(self.stats["strength"]))
-        # engine.notify("endurance=" + str(self.stats["endurance"]))
-        # engine.notify("intelligence=" + str(self.stats["intelligence"]))
-        # engine.notify("luck=" + str(self.stats["luck"]))
-        # engine.notify("experience=" + str(self.stats["experience"]))
-        # engine.notify("</Enemy >")
-        # delta_strength = (self.stats["strength"] - hero.stats["strength"])
-        # delta_endurance = (self.stats["endurance"] - hero.stats["endurance"])
-        # delta_luck
-        # if delta_strength > 0:
-        #     hero.hp -= delta_strength
         engine.hero.exp += 1
-        # self.action(engine, hero)
+
 
 
 class Ally(AbstractObject, Interactive):
@@ -120,12 +104,8 @@ class Ally(AbstractObject, Interactive):
         self.position = position
 
     def interact(self, engine, hero):
-        # res = f"Ally-{hero.hp}\nSecond str"
-        # engine.notify(res)
-        # engine.notify("stats="+str(hero.stats))
         self.action(engine, hero)
         engine.hero.exp += 1
-
         # DONE! - TODO interact Ally
 
 
@@ -134,7 +114,6 @@ class Effect(Hero):
     def __init__(self, base_stats):
         self.base = base_stats
         self.stats = self.base.stats.copy()
-        # self.apply_effect()
 
     @property
     def position(self):

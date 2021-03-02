@@ -33,6 +33,10 @@ class GameEngine:
             if list(obj.position) == self.hero.position:
                 self.delete_object(obj)
                 obj.interact(self, self.hero)
+        if self.hero.hp <=0:
+            self.game_process = False
+            self.notify("GAME OVER!")
+            self.notify("Press R for resume.")
 
     # MOVEMENT
     def move_up(self):

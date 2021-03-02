@@ -48,14 +48,11 @@ def apply_blessing(engine, hero):
             res_effect = engine.hero.apply_effect()
             engine.notify("Blessing applied")
             engine.notify(res_effect)
-            # engine.notify("Max_hp = "+ str(engine.hero.max_hp))
-            # engine.notify("New HP = "+str(engine.hero.hp))
         else:
             engine.hero = Objects.Berserk(hero)
             res_effect = engine.hero.apply_effect()
             engine.notify("Berserk applied")
             engine.notify(res_effect)
-            # engine.notify("Strength = " + str(engine.hero.stats["strength"]))
     else:
         engine.score -= 0.1
 
@@ -78,7 +75,6 @@ def add_gold(engine, hero):
         res_effect = engine.hero.apply_effect()
         engine.notify("You were cursed")
         engine.notify(res_effect)
-        # engine.notify("New strength = " + str(engine.hero.stats["strength"]))
     else:
         engine.score += 0.1
         gold = int(random.randint(10, 1000) * (1.1 ** (engine.hero.level - 1)))
@@ -93,10 +89,7 @@ class MapFactory(yaml.YAMLObject):
         data = loader.construct_mapping(node)
         _map = cls.create_map()
         _obj = cls.create_objects(data)
-        # _obj.objects.append(data)
-        # _obj.objects.append(Objects.Enemy(
-        #     prop['sprite'], prop, prop['experience'], coord))
-        # FIXME - get _map and _obj
+        # DONE! - FIXME - get _map and _obj
         return {'map': _map, 'obj': _obj}
 
     @classmethod
