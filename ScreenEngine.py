@@ -203,7 +203,7 @@ class InfoWindow(ScreenHandle):
     def draw(self, canvas):
         self.fill(colors["wooden"])
         size = self.get_size()
-        font = pygame.font.SysFont("comicsansms", 18)
+        font = pygame.font.SysFont("comicsansms", 14)
         for i, text in enumerate(self.data):
             self.blit(font.render(text, True, colors["black"]),
                       (5, 20 + 18 * i))

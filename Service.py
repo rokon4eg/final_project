@@ -92,8 +92,8 @@ class MapFactory(yaml.YAMLObject):
     def from_yaml(cls, loader, node):
         data = loader.construct_mapping(node)
         _map = cls.create_map()
-        _obj = cls.create_objects()
-        _obj.objects = []
+        _obj = cls.create_objects(data)
+        # _obj.objects.append(data)
         # _obj.objects.append(Objects.Enemy(
         #     prop['sprite'], prop, prop['experience'], coord))
         # FIXME - get _map and _obj
@@ -104,8 +104,8 @@ class MapFactory(yaml.YAMLObject):
         return cls.Map()
 
     @classmethod
-    def create_objects(cls):
-        return cls.Objects()
+    def create_objects(cls, data=None):
+        return cls.Objects(data)
 
     @abstractmethod
     class Map(ABC):
@@ -142,7 +142,7 @@ class EndMap(MapFactory):
             return self.Map
 
     class Objects:
-        def __init__(self):
+        def __init__(self, data=None):
             self.objects = []
 
         def get_objects(self, _map):
@@ -170,14 +170,14 @@ class EmptyMap(MapFactory):
 
     class Objects:
 
-        def __init__(self):
+        def __init__(self, data=None):
             self.objects = []
 
         def get_objects(self, _map):
 
             for obj_name in object_list_prob['objects']:
                 prop = object_list_prob['objects'][obj_name]
-                for i in range(random.randint(0, prop['min-count'])):
+                for i in range(prop['min-count']):
                     coord = (random.randint(1, 39), random.randint(1, 39))
                     intersect = True
                     while intersect:
@@ -198,7 +198,7 @@ class EmptyMap(MapFactory):
 
             for obj_name in object_list_prob['ally']:
                 prop = object_list_prob['ally'][obj_name]
-                for i in range(random.randint(0, prop['min-count'])):
+                for i in range(prop['min-count']):
                     coord = (random.randint(1, 39), random.randint(1, 39))
                     intersect = True
                     while intersect:
@@ -216,7 +216,7 @@ class EmptyMap(MapFactory):
                     self.objects.append(Objects.Ally(
                         prop['sprite'], prop['action'], coord))
 
-            """
+
             for obj_name in object_list_prob['enemies']:
                 prop = object_list_prob['enemies'][obj_name]
                 for i in range(random.randint(0, 5)):
@@ -237,7 +237,7 @@ class EmptyMap(MapFactory):
 
                     self.objects.append(Objects.Enemy(
                         prop['sprite'], prop, prop['experience'], coord))
-            """
+
 
             return self.objects
 
@@ -262,7 +262,7 @@ class RandomMap(MapFactory):
 
     class Objects:
 
-        def __init__(self):
+        def __init__(self, data=None):
             self.objects = []
 
         def get_objects(self, _map):
@@ -352,14 +352,17 @@ class SpecialMap(MapFactory):
 
     class Objects:
 
-        def __init__(self):
+        def __init__(self, data=None):
             self.objects = []
+            self.data = data
 
         def get_objects(self, _map):
 
             for obj_name in object_list_prob['objects']:
                 prop = object_list_prob['objects'][obj_name]
-                for i in range(random.randint(prop['min-count'], prop['max-count'])):
+                ally_count = self.data.get(obj_name,
+                                           range(random.randint(prop['min-count'], prop['max-count'])))
+                for i in ally_count:
                     coord = (random.randint(1, 39), random.randint(1, 39))
                     intersect = True
                     while intersect:
@@ -380,7 +383,9 @@ class SpecialMap(MapFactory):
 
             for obj_name in object_list_prob['ally']:
                 prop = object_list_prob['ally'][obj_name]
-                for i in range(random.randint(prop['min-count'], prop['max-count'])):
+                ally_count = self.data.get(obj_name,
+                                           range(random.randint(prop['min-count'], prop['max-count'])))
+                for i in ally_count:
                     coord = (random.randint(1, 39), random.randint(1, 39))
                     intersect = True
                     while intersect:
@@ -400,7 +405,8 @@ class SpecialMap(MapFactory):
 
             for obj_name in object_list_prob['enemies']:
                 prop = object_list_prob['enemies'][obj_name]
-                for i in range(random.randint(0, 5)):
+                enemies_count = self.data.get(obj_name, 0)
+                for i in range(enemies_count):
                     coord = (random.randint(1, 30), random.randint(1, 22))
                     intersect = True
                     while intersect:

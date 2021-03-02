@@ -71,21 +71,44 @@ class Enemy(Creature, Interactive):
 
     def interact(self, engine, hero):
         # DONE! - TODO interact Enemy
-        pass
-        engine.notify("<Enemy>")
-        engine.notify('xp=' + str(self.xp))
-        engine.notify("strength=" + str(self.stats["strength"]))
-        engine.notify("endurance=" + str(self.stats["endurance"]))
-        engine.notify("intelligence=" + str(self.stats["intelligence"]))
-        engine.notify("luck=" + str(self.stats["luck"]))
-        engine.notify("experience=" + str(self.stats["experience"]))
-        engine.notify("</Enemy >")
-        delta_strength = (self.stats["strength"] - hero.stats["strength"])
-        delta_endurance = (self.stats["endurance"] - hero.stats["endurance"])
+        hero_luck = random.randint(0, engine.hero.stats["luck"])
+        hero_safe = engine.hero.stats["endurance"] * engine.hero.stats["intelligence"] * hero_luck
+
+        enemy_luck = random.randint(0, self.stats["luck"])
+        enemy_safe = self.stats["endurance"] * self.stats["intelligence"] * enemy_luck
+
+        hero_force = engine.hero.stats["strength"] * engine.hero.stats["intelligence"]
+        enemy_force = self.stats["strength"] * self.stats["intelligence"]
+
+        hero_damage = enemy_force - hero_safe
+        if hero_damage > 0:
+            hero.hp -= hero_damage
+            engine.notify("hero damaged!")
+
+        enemy_damage = hero_force - enemy_safe
+        if enemy_damage > 0:
+            engine.notify("enemy damaged")
+            engine.hero.exp += 5
+            engine.score += 0.1
+            if (self.xp - enemy_damage) < 0:
+                engine.hero.exp += 10
+                engine.score += 0.2
+                engine.notify("enemy destroyed!")
+
+        # engine.notify("hero_damage=" + str(hero_damage))
+        # engine.notify('enemy_damage=' + str(enemy_damage))
+        # engine.notify("strength=" + str(self.stats["strength"]))
+        # engine.notify("endurance=" + str(self.stats["endurance"]))
+        # engine.notify("intelligence=" + str(self.stats["intelligence"]))
+        # engine.notify("luck=" + str(self.stats["luck"]))
+        # engine.notify("experience=" + str(self.stats["experience"]))
+        # engine.notify("</Enemy >")
+        # delta_strength = (self.stats["strength"] - hero.stats["strength"])
+        # delta_endurance = (self.stats["endurance"] - hero.stats["endurance"])
         # delta_luck
-        if delta_strength > 0:
-            hero.hp -= delta_strength
-        engine.hero.exp += 2
+        # if delta_strength > 0:
+        #     hero.hp -= delta_strength
+        engine.hero.exp += 1
         # self.action(engine, hero)
 
 
